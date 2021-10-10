@@ -1,0 +1,23 @@
+{
+  "name": "node_and_react",
+  "version": "1.0.0",
+  "description": "인프런 노드 리액트 기초강의 연습",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yjkim13/Node_and_React.git"
+  },
+  "author": "kim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yjkim13/Node_and_React/issues"
+  },
+  "homepage": "https://github.com/yjkim13/Node_and_React#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
