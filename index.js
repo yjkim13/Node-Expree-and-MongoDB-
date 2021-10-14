@@ -2,10 +2,10 @@ const express = require("express");
 const app = express();
 const port = 5000;
 const bodyParser = require("body-parser");
-const { User} = require("./models/user");
+const {User} = require("./models/user");
 const cookieParser = require("cookie-parser");
 const config = require("./config/key");
-const auth = require('./middleware/auth')
+const {auth} = require('./middleware/auth');
 
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -19,7 +19,7 @@ mongoose.connect(config.mongoURI)
 
 app.get('/',(req,res) => res.send('Hello World'));
 
-app.post('/api/user/register',function(req,res){
+app.post('/api/users/register',function(req,res){
     //회원가입할 때 필요한 정보들을  clien에서 가져오면
     //그것들을 데이터 베이스에 넣어준다.
 
@@ -33,7 +33,7 @@ app.post('/api/user/register',function(req,res){
     });
 });
 
-app.post('/api/user//login',(req,res)=>{
+app.post('/api/users/login',(req,res)=>{
     //요청된 이메일을 데이터베이스에서 있는지 찾는다.
     User.findOne({email: req.body.email},(err, user)=>{
         if(!user){
@@ -63,7 +63,7 @@ app.post('/api/user//login',(req,res)=>{
     })   
 })
 
-app.get('/api/user/auth', auth ,(req,res)=>{
+app.get('/api/users/auth', auth ,(req,res)=>{
  //여기까지 미들웨어가 통과했다는 의미는 auth가 ture 라는 것을 의미
 
  res.status(200).json({
@@ -76,6 +76,17 @@ app.get('/api/user/auth', auth ,(req,res)=>{
      role:req.user.role,
      image:req.user.image
  })
+})
+
+app.get('/api/users/logout',auth,(req,res)=>{
+    User.findOneAndUpdate({ _id:req.user._id},
+        {token: ""},
+        (err,user)=>{
+            if(err) return res.json({success:false,err});
+            return res.status(200).send({
+                success:true
+            })
+        })
 })
 
 
